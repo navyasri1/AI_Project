@@ -227,6 +227,9 @@ class PositionSearchProblem(search.SearchProblem):
             cost += self.costFn((x, y))
         return cost
 
+    def get_goal_state(self):
+        return self.goal
+
 
 class StayEastSearchAgent(SearchAgent):
     """
