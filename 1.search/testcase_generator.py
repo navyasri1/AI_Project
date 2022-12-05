@@ -2,7 +2,7 @@ import os
 import subprocess
 
 algos = ['dfs', 'bfs', 'ucs', 'astar', 'mm0', 'mm']
-#algos = ['mm']
+
 layouts = []
 flag = 0
 for file in os.listdir('layouts'):
@@ -16,26 +16,25 @@ for algo in algos:
     temp = []
     for layout in layouts:
         count = 0
-        #with open(layout+'.lay') as f:
-        #    lines = f.readlines()
-
+        if '_' not in layout:
+            continue
         command_str = 'python3 pacman.py -l ' + layout + ' -p SearchAgent -a fn=' + algo
-        from pdb import set_trace as bp
-        #bp()
 
         if 'Corners' in layout:
             command_str = command_str + ',prob=CornersProblem'
-            continue
+            if algo != 'mm0':
+                command_str = command_str + ',heuristic=cornersHeuristic'
+
+        elif 'Search' in layout or 'Dotted' in layout:
+            command_str = command_str + ',prob=FoodSearchProblem'
+            if algo != 'mm0':
+                command_str = command_str + ',heuristic=foodSearchHeuristic'
 
         elif algo == 'astar' or algo == 'mm':
             command_str = command_str + ',heuristic=manhattanHeuristic'
 
-        if 'Classic' in layout or 'Search' in layout or 'Dotted' in layout:
+        if 'Classic' in layout:
             continue
-        #if 'Classic' in layout or 'Search' in layout or 'Dotted' in layout:
-        #    command_str = command_str + ',prob=FoodSearchProblem'
-        #    if algo != 'astar' and algo != 'bidirectional_MM':
-        #        command_str = command_str + ',heuristic=foodHeuristic'
 
         command_str = command_str + ' --frameTime 0.001'
         print(command_str)
@@ -48,6 +47,7 @@ for algo in algos:
         results[(algo, layout)] = [cost, nodes_exp, score]
         temp.append(nodes_exp)
     values.append(temp)
+
 final_list = []
 for key in results.keys():
     print(key, results[key])
@@ -55,17 +55,8 @@ for key in results.keys():
 
 import csv
 
-header = ['Algo, environment', 'Path cost', 'Nodes expanded', 'Score']
-
-with open('AI_project_output.csv', 'w', encoding='UTF8') as f:
-    writer = csv.writer(f)
-
-    # write the header
-    writer.writerow(header)
-
-    # write the data
-    for line in final_list:
-        writer.writerow(line)
+header = ['Algo', 'environment', 'Path cost', 'Nodes expanded', 'Score']
+header2 = ['T-test Results with MM','DFS','BFS','UCS','ASTAR','MM0']
 
 from scipy import stats
 
@@ -82,6 +73,10 @@ p_value_list = []
         temp_t.append(t_value)
     t_value_list.append(temp_t)
     p_value_list.append(temp_p)'''
+
+t_value_list.append('\t')
+p_value_list.append('\t')
+
 for i in range(len(values)):
     print(values[i])
 for i in range(len(values)):
@@ -90,5 +85,17 @@ for i in range(len(values)):
     p_value_list.append(p_value/2)
 
 print(t_value_list)
-
 print(p_value_list)
+
+with open('AI_project_output.csv', 'w', encoding='UTF8') as f:
+    writer = csv.writer(f)
+
+    # write the header
+    writer.writerow(header)
+
+    # write the data
+    for line in final_list:
+        writer.writerow(line)
+    writer.writerow(header2)
+    writer.writerow(t_value_list)
+    writer.writerow(p_value_list)
