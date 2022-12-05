@@ -47,9 +47,13 @@ for layout_dir in layout_dirs:
             elif algorithm == 'mm':
                 if 'Corners' in layout:
                     cmd+=',prob=CornersProblem'
-                f.write(cmd+'\n')
-                cmd+=',heuristic=cornersHeuristic'
-                f.write(cmd+'\n')
+                    f.write(cmd+'\n')
+                    cmd+=',heuristic=cornersHeuristic'
+                    f.write(cmd+'\n')
+                elif 'Maze' in layout:
+                    f.write(cmd+'\n')
+                    cmd+=',heuristic=manhattanHeuristic'
+                    f.write(cmd+'\n')
             else:
                 f.write(cmd+'\n')
 
