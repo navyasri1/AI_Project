@@ -186,9 +186,38 @@ class PriorityQueue:
     def pop(self):
         (_, _, item) = heapq.heappop(self.heap)
         return item
+    
+    def prmin(self):
+        if len(self.heap) != 0:
+            return self.heap[0][0]
+    
+    def prmin_node(self): # Returns the node that has the top priority without popping it
+        if len(self.heap) != 0:
+            return self.heap[0][2]
 
     def isEmpty(self):
         return len(self.heap) == 0
+
+    def remove(self, item): # Remove an entry from the heap. Used in MM algorith to remove nodes from open fringe. 
+        item_present = False
+        heap_copy = list(self.heap)
+        
+
+        for entry in heap_copy:
+            heap_item = entry[2]
+            if not item_present and heap_item.n == item:
+                item_present = True # Only remove the 1st occurance
+                break 
+        if item_present:
+            self.heap = list()
+            self.count = 0
+
+            for entry in heap_copy:
+                if not entry[2].n == item:
+                    self.push(entry[2], entry[2].getPriority())
+
+
+
 
     def update(self, item, priority):
         # If item already in priority queue with higher priority, update its priority and rebuild the heap.
@@ -204,7 +233,6 @@ class PriorityQueue:
                 break
         else:
             self.push(item, priority)
-
 
 class PriorityQueueWithFunction(PriorityQueue):
     """

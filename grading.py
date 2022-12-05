@@ -14,8 +14,7 @@
 
 "Common code for autograders"
 
-#import cgi
-import html
+import cgi
 import time
 import sys
 import json
@@ -292,8 +291,7 @@ to follow your instructor's guidelines to receive credit on your project.
         if self.mute: util.unmutePrint()
         print('*** ' + message)
         if self.mute: util.mutePrint()
-        #message = cgi.escape(message)
-        message = html.escape(message)
+        message = cgi.escape(message)
     self.messages[self.currentQuestion].append(message)
 
   def addMessageToEmail(self, message):
