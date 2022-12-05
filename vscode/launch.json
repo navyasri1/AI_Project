@@ -1,0 +1,303 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: TinyCorners NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinyCorners",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=CornersProblem"
+            ]
+        },
+        {
+            "name": "Python: MediumCorners NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "mediumCorners",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=CornersProblem"
+            ]
+        },
+        {
+            "name": "Python: BigCorners NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "bigCorners",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=CornersProblem"
+            ]
+        },
+        {
+            "name": "Python: TinyMaze NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinyMaze",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm"
+            ]
+        },
+        {
+            "name": "Python: MediumMaze NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "mediumMaze",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm"
+            ]
+        },
+        {
+            "name": "Python: BigMaze NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "bigMaze",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm"
+            ]
+        },
+        {
+            "name": "Python: TinyFoodSearch NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinySearch",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=FoodSearchProblem"
+            ]
+        },
+        {
+            "name": "Python: TrickyFoodSearch NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "trickySearch",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=FoodSearchProblem"
+            ]
+        },
+        {
+            "name": "Python: TinySafeFoodSearch NullHeuristic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinySafeSearch",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=FoodSearchProblem"
+            ]
+        },
+        {
+            "name": "Python: TinyCorners",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinyCorners",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=CornersProblem,heuristic=cornersHeuristic"
+            ]
+        },
+        {
+            "name": "Python: MediumCorners",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "mediumCorners",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=CornersProblem,heuristic=cornersHeuristic"
+            ]
+        },
+        {
+            "name": "Python: BigCorners",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "bigCorners",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=CornersProblem,heuristic=cornersHeuristic"
+            ]
+        },
+        {
+            "name": "Python: TinyMaze",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinyMaze",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,heuristic=manhattanHeuristic"
+            ]
+        },
+        {
+            "name": "Python: MediumMaze",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "mediumMaze",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,heuristic=manhattanHeuristic"
+            ]
+        },
+        {
+            "name": "Python: BigMaze",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "bigMaze",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,heuristic=manhattanHeuristic"
+            ]
+        },
+        {
+            "name": "Python: TinyFoodSearch",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinySearch",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=FoodSearchProblem,heuristic=foodSearchHeuristic"
+            ]
+        },
+        {
+            "name": "Python: TrickyFoodSearch",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "trickySearch",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=FoodSearchProblem,heuristic=foodSearchHeuristic"
+            ]
+        },
+        {
+            "name": "Python: TinySafeFoodSearch",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pacman.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "-l",
+                "tinySafeSearch",
+                "-p",
+                "SearchAgent",
+                "-a",
+                "fn=mm,prob=FoodSearchProblem,heuristic=foodSearchHeuristic"
+            ]
+        }
+    ]
+}
