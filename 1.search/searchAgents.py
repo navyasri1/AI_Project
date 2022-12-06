@@ -114,7 +114,7 @@ class SearchAgent(Agent):
         problem = self.searchType(state)  # Makes a new search problem
         self.actions = self.searchFunction(problem)  # Find a path
         totalCost = problem.getCostOfActions(self.actions)
-        print('Path found with total cost of %d in %.1f seconds' % (totalCost, time.time() - starttime))
+        print('Path found with total cost of %d in %.6f seconds' % (totalCost, time.time() - starttime))
         if '_expanded' in dir(problem): print('Search nodes expanded: %d' % problem._expanded)
 
     def getAction(self, state):
@@ -183,7 +183,7 @@ class PositionSearchProblem(search.SearchProblem):
 
         return isGoal
 
-    def getSuccessors(self, state):
+    def getSuccessors(self, state, direction='Forward'):
         """
         Returns successor states, the actions they require, and a cost of 1.
 
@@ -267,7 +267,11 @@ class StayWestSearchAgent(SearchAgent):
 def manhattanHeuristic(position, problem, info={}):
     "The Manhattan distance heuristic for a PositionSearchProblem"
     xy1 = position
-    xy2 = problem.getGoalState()
+
+    if "backward_search" in info:
+        xy2 = problem.getStartState()
+    else:
+        xy2 = problem.goal
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
 
@@ -351,7 +355,9 @@ class CornersProblem(search.SearchProblem):
 
         return isGoal
 
-    def getSuccessors(self, state):
+    def getSuccessors(self, state, direction='Forward'):
+        if direction == 'Backward':
+            return self.getSuccessorsBS(state)
         """
         Returns successor states, the actions they require, and a cost of 1.
 
@@ -442,7 +448,7 @@ class CornersProblem(search.SearchProblem):
         self._expanded += 1  # DO NOT CHANGE
         return successors
 
-def cornersHeuristic(state, problem):
+def cornersHeuristic(state, problem, info={}):
     """
     A heuristic for the CornersProblem that you defined.
 
@@ -533,7 +539,6 @@ class AStarCornersAgent(SearchAgent):
         self.searchFunction = lambda prob: search.aStarSearch(prob, cornersHeuristic)
         self.searchType = CornersProblem
 
-
 class FoodSearchProblem:
     """
     A search problem associated with finding the a path that collects all of the
@@ -552,46 +557,53 @@ class FoodSearchProblem:
         self.heuristicInfo = {}  # A dictionary for the heuristic to store information
 
     def getStartState(self):
-        self.heuristicInfo['foodGrid'] = self.start[1].copy()
+        self.heuristicInfo['FoodSearchProblem'] = self.start[1].copy()
         return self.start
 
     def getGoalState(self):
         farthest_food = None
+        locations_of_food = self.start[1].asList()
 
-        food_positions = self.start[1].asList()
-
-        if len(food_positions) == 0:
+        if not len(locations_of_food):
             return self.start
 
-        # heuristic 3
-        gamestate = self.startingGameState
-        max_dist = float('-inf')
-        for food in food_positions:
-            food_dist = mazeDistance(self.start[0], food, gamestate)
-            if max_dist < food_dist:
-                max_dist = food_dist
-                farthest_food = food
+        cur_max = -99999
 
-        foodGrid = self.start[1].copy()
-        for x in range(foodGrid.width):
-            for y in range(foodGrid.height):
-                foodGrid[x][y] = False
+        for food_pos in locations_of_food:
+            distance_to_food = mazeDistance(self.start[0], food_pos, self.startingGameState)
+            if cur_max < distance_to_food:
+                cur_max = distance_to_food
+                farthest_food = food_pos
+
+        food_locations = self.start[1].copy()
+
+        for i in range(food_locations.width):
+            for j in range(food_locations.height):
+                food_locations[i][j] = False
+
+        return tuple((farthest_food, food_locations))
 
     def isGoalState(self, state):
         return state[1].count() == 0
 
-    def getSuccessors(self, state):
+    def getSuccessors(self, state, direction='Forward'):
         "Returns successor states, the actions they require, and a cost of 1."
         successors = []
         self._expanded += 1  # DO NOT CHANGE
-        for direction in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+        for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             x, y = state[0]
-            dx, dy = Actions.directionToVector(direction)
+            dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             if not self.walls[nextx][nexty]:
-                nextFood = state[1].copy()
-                nextFood[nextx][nexty] = False
-                successors.append((((nextx, nexty), nextFood), direction, 1))
+                if direction == 'Forward':
+                    nextFood = state[1].copy()
+                    nextFood[nextx][nexty] = False
+                    self.heuristicInfo['FoodSearchProblem'] = nextFood
+                    successors.append((((nextx, nexty), nextFood), action, 1))
+                else:
+                    nextFood = state[1].copy()
+                    nextFood[nextx][nexty] = self.heuristicInfo['FoodSearchProblem'][nextx][nexty]
+                    successors.append((((nextx, nexty), nextFood), action, 1))
         return successors
 
     def getCostOfActions(self, actions):
@@ -607,6 +619,28 @@ class FoodSearchProblem:
                 return 999999
             cost += 1
         return cost
+
+
+def foodSearchHeuristic(state, problem, info={}):
+    # Heuristic for food search.
+
+    cur_location = state[0]
+    heuristic_value = 0
+
+    if ('backward_search' not in info and len(state[1].asList()) != len(
+            problem.heuristicInfo['FoodSearchProblem'].asList()) or (
+    len(problem.heuristicInfo['FoodSearchProblem'].asList()))):
+        gamestate = problem.startingGameState
+
+        if 'backward_search' in info:
+            food_locations = problem.heuristicInfo['FoodSearchProblem'].asList()
+        else:
+            food_locations = state[1].asList()
+
+        for food_location in food_locations:
+            heuristic_value = max(heuristic_value, mazeDistance(cur_location, food_location, gamestate))
+
+    return heuristic_value
 
 
 def mazeDistance(point1, point2, gameState):
