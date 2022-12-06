@@ -9,7 +9,7 @@ Instructions to run the code:
 
 python all_layout_run.py which runs 15 layouts for all the algorithms, gives t-test results and saves the results into all_layout_output.csv
 
-python selected_layout_run.py which runs different variants of three layouts 'mediumMaze','mediumCorners','trickySearch', runs t-tests and saves the results into mediumCorners_output.csv, mediumMaze_output.csv, trickySearch_output.csv
+python selected_layout_run.py which runs different variants of three layouts 'mediumMaze', 'mediumCorners', 'trickySearch', runs t-tests and saves the results into mediumCorners_output.csv, mediumMaze_output.csv, trickySearch_output.csv
 
 Different variants of layouts are saved in layouts_selective folder.
 
